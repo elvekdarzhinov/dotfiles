@@ -1,0 +1,4 @@
+alias v='lvim'
+alias ls='lsd --icon never'
+alias ll='lsd -al --icon never'
+alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'

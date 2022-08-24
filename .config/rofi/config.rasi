@@ -1,0 +1,5 @@
+configuration {
+  dpi: 120;
+  font: "jetbrainsmono nerd font mono 10";
+  }
+  @theme "~/.config/rofi/themes/dt-dmenu.rasi"
