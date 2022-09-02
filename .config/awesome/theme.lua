@@ -11,9 +11,10 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.wallpaper     = "~/Pictures/Wallpapers/amogus-landscape.png"
-theme.font          = "FantasqueSansMono Nerd Font Mono 14"
-theme.font_larger   = "FantasqueSansMono Nerd Font Mono 16"
+theme.wallpaper     = "~/Pictures/Wallpapers/crane.png"
+
+theme.font          = "FantasqueSansMono Nerd Font 14"
+theme.font_larger   = "FantasqueSansMono Nerd Font 16"
 
 theme.bg_normal     = "#1e2127"
 theme.bg_focus      = "#535d6c"
@@ -26,7 +27,7 @@ theme.fg_focus      = "#ffffff"
 theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#abb2bf"
 
-theme.useless_gap   = dpi(4)
+theme.useless_gap   = dpi(8)
 theme.border_width  = dpi(2)
 theme.border_normal = "#1e2127"
 theme.border_focus  = "#535d6c"
@@ -44,8 +45,8 @@ theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
 
 -- Variables set for theming the menu:
 theme.menu_submenu_icon = themes_path.."default/submenu.png"
-theme.menu_height = dpi(15)
-theme.menu_width  = dpi(100)
+theme.menu_height = dpi(20)
+theme.menu_width  = dpi(150)
 
 -- Define the image to load
 theme.titlebar_close_button_normal = themes_path.."default/titlebar/close_normal.png"
