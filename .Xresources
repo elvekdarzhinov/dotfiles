@@ -1,6 +1,10 @@
 Xft.dpi: 120
-
 Xft.antialias: 1
 Xft.hinting: 1
 Xft.hintstyle: hintfull
 Xft.rgba: rgb
+Xft.font: FantasqueSansMono Nerd Font Mono:size=12
+
+Sxiv.background: #000000
+Sxiv.foreground: #999999
+Sxiv.font: FantasqueSansMono Nerd Font Mono:size=12

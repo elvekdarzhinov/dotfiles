@@ -20,6 +20,9 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# include hidden files.
 
+# Smart cd (must be after compinit)
+eval "$(zoxide init zsh --cmd cd)"
+
 # Vi mode
 bindkey -v
 export KEYTIMEOUT=1
@@ -98,9 +101,6 @@ bindkey -s '^o' 'lfcd\n'
 
 # Source aliases
 source ~/.config/shellconfig/aliases
-
-# Source env variables
-source ~/.config/shellconfig/vars
 
 # Suggest aliases for commands
 source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh 2>/dev/null

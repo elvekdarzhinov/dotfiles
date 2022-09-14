@@ -10,8 +10,8 @@
     border-color:               #ff0000;
     text-color:                 #abb2bf;
     height:                     26px;
-    font:                       "jetbrainsmono nerd font mono 12";
-    prompt-font:                "jetbrainsmono nerd font mono bold 12";
+    font:                       "FantasqueSansMono Nerd Font Mono 14";
+    prompt-font:                "FantasqueSansMono Nerd Font Mono Bold 14";
     prompt-background:          #5294e2;
     prompt-foreground:          #ffffff;
     prompt-padding:             0px 4px;

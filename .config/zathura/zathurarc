@@ -9,5 +9,5 @@ map R rotate
 map K zoom in
 map J zoom out
 map i recolor
-map H scroll full-up
-map L scroll full-down
+map I navigate previous
+map U navigate next

@@ -1,16 +1,16 @@
-export EDITOR="lvim"
-#export READER="zathura"
-export VISUAL="lvim"
 export TERMINAL="alacritty"
+export EDITOR="nvim"
+export VISUAL="nvim"
 export BROWSER="brave"
-#export VIDEO="mpv"
-#export IMAGE="sxiv"
+export READER="zathura"
+export IMAGE="sxiv"
+export VIDEO="mpv"
 export COLORTERM="truecolor"
-export PAGER="less"
+export PAGER="bat -p"
 export WM="awesome"
 
 # Path
-path=("$HOME/.cargo/bin" "$HOME/.npm-global/bin" "$HOME/.local/bin" "$HOME/.local/share/JetBrains/Toolbox/scripts" "$HOME/.local/bin" "$path[@]")
+path=( "$path[@]" "$HOME/test/todo/src" "$HOME/.local/bin" "$HOME/.local/share/JetBrains/Toolbox/scripts" "$HOME/.npm-global/bin" "$HOME/.cargo/bin" )
 export PATH
 
 export LF_ICONS="\
