@@ -1,3 +1,10 @@
+import:
+  # uncomment the flavour you want below:
+    - ~/.config/alacritty/catppuccin/catppuccin-mocha.yml
+  #  - ~/.config/alacritty/catppuccin/catppuccin-macchiato.yml
+  #  - ~/.config/alacritty/catppuccin/catppuccin-frappe.yml
+  #  - ~/.config/alacritty/catppuccin/catppuccin-latte.yml
+
 env:
   TERM: xterm-256color
 
@@ -11,7 +18,7 @@ window:
   # dynamic_padding: true
 
   # Background opacity
-  opacity: 0.95
+  opacity: 0.90
 
 # Font configuration
 font:
@@ -55,32 +62,31 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
-# Colors (One Dark)
-colors:
-  # Default colors
-  primary:
-    background: '0x282c34'
-    foreground: '0xabb2bf'
-
-  # Normal colors
-  normal:
-    black:   '0x181a1f'
-    red:     '0xe86671'
-    green:   '0x98c379'
-    yellow:  '0xe5c07b'
-    blue:    '0x61afef'
-    magenta: '0xc678dd'
-    cyan:    '0x56b6c2'
-    white:   '0xabb2bf'
-
-  # Bright colors
-  bright:
-    black:   '0x5c6370'
-    red:     '0xe06c75'
-    green:   '0x98c379'
-    yellow:  '0xd19a66'
-    blue:    '0x61afef'
-    magenta: '0xc678dd'
-    cyan:    '0x56b6c2'
-    white:   '0xffffff'
-
+# Colors (catppuccin)
+# colors:
+#   primary:
+#     background: '0x1e1d2d'
+#     foreground: '0xd9e0ee'
+#
+#   # Normal colors
+#   normal:
+#     black:   '0x1e1d2d'
+#     red:     '0xf38ba8'
+#     green:   '0xabe9b3'
+#     yellow:  '0xfae3b0'
+#     blue:    '0x89b4fa'
+#     magenta: '0xd0a9e5'
+#     cyan:    '0x89dceb'
+#     white:   '0xd9e0ee'
+#
+#   # Bright colors
+#   bright:
+#     black:   '0x191828'
+#     red:     '0xffa5c3'
+#     green:   '0xb6f4be'
+#     yellow:  '0xffe9b6'
+#     blue:    '0x8bc2f0'
+#     magenta: '0xdab4ef'
+#     cyan:    '0x99e6f5'
+#     white:   '0xffffff'
+#

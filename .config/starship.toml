@@ -3,6 +3,12 @@ add_newline = false
 [line_break]
 disabled = true
 
+[c]
+disabled = true
+
+[dotnet]
+disabled = true
+
 [cmake]
 disabled = true
 

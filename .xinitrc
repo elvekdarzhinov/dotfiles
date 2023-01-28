@@ -35,8 +35,6 @@ picom &
 kbsets &
 unclutter &
 nm-applet &
-xfce4-power-manager &
-volumeicon &
-redshift -PO 4400 &
+redshift -PO 4800 &
 
 exec awesome

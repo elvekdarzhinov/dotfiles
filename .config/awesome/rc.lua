@@ -10,8 +10,6 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
-local lain = require("lain")
-
 require("awful.autofocus")
 
 -- C api
@@ -40,31 +38,35 @@ end
 -- }}}
 
 -- {{{ Variable definitions
+beautiful.init("/home/nt/.config/awesome/theme.lua")
+
 local modkey = "Mod4"
 local terminal = "alacritty"
 local browser = "brave"
+local reader = "zathura"
 local file_manager = "lfub"
 local editor = "nvim"
 local editor_cmd = terminal .. " -e " .. editor
-
--- Dropdown calculator
-local calculator = lain.util.quake({
-    app = terminal,
-    name = "Calculator",
-    argname = "-t Calculator",
-    extra = "--class Calculator -e eva",
-    vert = "center",
-    horiz = "center",
-    height = 0.5,
-    width = 0.5,
-})
-
-beautiful.init("/home/nt/.config/awesome/theme.lua")
 
 awful.layout.layouts = {
     awful.layout.suit.tile,
     awful.layout.suit.floating,
 }
+-- }}}
+
+-- {{{ Bling
+local bling = require("bling")
+
+local calculator = bling.module.scratchpad({
+    command = "alacritty -t Calculator -e eva",
+    rule = { instance = "Calculator" }, -- The rule that the scratchpad will be searched by
+    sticky = true,
+    autoclose = false, -- Whether it should hide itself when losing focus
+    floating = true, -- Whether it should be floating (MUST BE TRUE FOR ANIMATIONS)
+    geometry = { x = 560, y = 240, width = 800, height = 600 },
+    reapply = true,
+    dont_focus_before_close = true,
+})
 -- }}}
 
 -- {{{ Menu
@@ -90,9 +92,9 @@ local mymainmenu = awful.menu({
 })
 -- }}}
 
+
 -- {{{ Screen content
 awful.screen.connect_for_each_screen(function(s)
-    -- Set wallpaper
     gears.wallpaper.maximized(beautiful.wallpaper, s, true)
 
     -- Create tags
@@ -102,6 +104,16 @@ awful.screen.connect_for_each_screen(function(s)
     s.mytaglist = awful.widget.taglist({
         screen = s,
         filter = awful.widget.taglist.filter.noempty,
+        -- layout = {
+        --     spacing = 10,
+        --     top = 5,
+        --     spacing_widget = {
+        --         color = "#dddddd",
+        --         shape = gears.shape.powerline,
+        --         widget = wibox.widget.separator,
+        --     },
+        --     layout = wibox.layout.fixed.horizontal,
+        -- },
         widget_template = {
             {
                 {
@@ -112,35 +124,34 @@ awful.screen.connect_for_each_screen(function(s)
                     layout = wibox.layout.fixed.horizontal,
                 },
                 widget = wibox.container.margin,
-                left = 10,
-                right = 10,
+                left = 15,
+                right = 15,
             },
             id = "background_role",
             widget = wibox.container.background,
         },
-        buttons = gears.table.join(
-            awful.button({}, 1, function(t)
-                t:view_only()
-            end),
-            awful.button({ modkey }, 1, function(t)
-                if client.focus then
-                    client.focus:move_to_tag(t)
-                end
-            end),
-            awful.button({}, 3, awful.tag.viewtoggle),
-            awful.button({ modkey }, 3, function(t)
-                if client.focus then
-                    client.focus:toggle_tag(t)
-                end
-            end)
-        ),
     })
 
-    -- TODO: smaller icons
     -- Tasklist widget
     s.mytasklist = awful.widget.tasklist({
         screen = s,
         filter = awful.widget.tasklist.filter.currenttags,
+        widget_template = {
+            {
+                {
+                    {
+                        id = "text_role",
+                        widget = wibox.widget.textbox,
+                    },
+                    layout = wibox.layout.fixed.horizontal,
+                },
+                widget = wibox.container.margin,
+                left = 15,
+                right = 15,
+            },
+            id = "background_role",
+            widget = wibox.container.background,
+        },
         buttons = gears.table.join(
             awful.button({}, 1, function(c)
                 if c == client.focus then
@@ -153,64 +164,40 @@ awful.screen.connect_for_each_screen(function(s)
                 awful.menu.client_list({ theme = { width = 250 } })
             end)
         ),
-        widget_template = {
-            {
-                {
-                    {
-                        id = "text_role",
-                        widget = wibox.widget.textbox,
-                    },
-                    layout = wibox.layout.fixed.horizontal,
-                },
-                widget = wibox.container.margin,
-                left = 10,
-                right = 10,
-            },
-            id = "background_role",
-            widget = wibox.container.background,
-        },
     })
 
-    -- Layout indicator widget
-    s.mylayoutbox = require("textlayoutbox")(s)
-    s.mylayoutbox:buttons(gears.table.join(
-        awful.button({}, 1, function()
-            awful.layout.inc(1)
-        end),
-        awful.button({}, 3, function()
-            awful.layout.inc(-1)
-        end)
-    ))
+    -- Widgets
+    s.mylayoutbox = require("widgets.textlayoutbox")(s)
+    local volume_widget = require("widgets.volume")()
+    local keyboardlayout_widget = require("widgets.keyboardlayout")()
+    local battery_widget = require("widgets.battery")()
+    local textclock_widget = wibox.widget.textclock()
+    local systray_widget = wibox.widget.systray()
 
-    local battery_widget = require("awesome-wm-widgets.battery-widget.battery")
-    local mytextclock = wibox.widget.textclock()
-    -- TODO: check source
-    local mykeyboardlayout = awful.widget.keyboardlayout()
-    local mysystray = wibox.widget.systray()
-    s.mywibar = awful.wibar({ position = "top", screen = s, height = 24 })
+    s.mywibar = awful.wibar({ position = "top", screen = s, height = 26 })
 
-    -- Add widgets to the wibar
     s.mywibar:setup({
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            spacing = 10,
+            spacing = 15,
             s.mytaglist,
             s.mylayoutbox,
         },
         { -- Middle widget
             widget = wibox.container.margin,
-            left = 10,
-            right = 10,
+            left = 15,
+            right = 15,
             s.mytasklist,
         },
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            spacing = 10,
-            mykeyboardlayout,
-            mysystray,
-            battery_widget({ font = beautiful.font, show_current_level = true }),
-            mytextclock,
+            spacing = 15,
+            systray_widget,
+            keyboardlayout_widget,
+            battery_widget,
+            volume_widget,
+            textclock_widget,
         },
     })
 end)
@@ -222,10 +209,17 @@ root.buttons(gears.table.join(awful.button({}, 3, function()
 end)))
 -- }}}
 
--- {{{ Keybindings
+
+-- {{{ Key bindings
 -- stylua: ignore start
 local globalkeys = gears.table.join(
-    awful.key({                   }, "F12", function() calculator:toggle() end),
+    awful.key({                   }, "XF86AudioRaiseVolume", function() awful.spawn.with_shell("pamixer -i 2") end),
+    awful.key({                   }, "XF86AudioLowerVolume", function() awful.spawn.with_shell("pamixer -d 2") end),
+    awful.key({                   }, "XF86AudioMute", function() awful.spawn.with_shell("pamixer -t") end),
+    awful.key({                   }, "Print", function() awful.spawn.with_shell("flameshot gui") end),
+    awful.key({                   }, "XF86MonBrightnessUp", function() awful.spawn.with_shell("light -A 5") end),
+    awful.key({                   }, "XF86MonBrightnessDown", function() awful.spawn.with_shell("light -U 5") end),
+    awful.key({                   }, "XF86Calculator", function() calculator:toggle() end),
     awful.key({ modkey, "Shift"   }, "Delete", function() awful.spawn("sysact") end,
               { description = "shutdown, reboot, etc", group = "awesome" }),
     awful.key({ modkey            }, "s", hotkeys_popup.show_help,
@@ -270,6 +264,8 @@ local globalkeys = gears.table.join(
               { description = "open a file manager", group = "launcher" }),
     awful.key({ modkey            }, "w", function() awful.spawn(browser) end,
               { description = "open a browser", group = "launcher" }),
+    awful.key({ modkey            }, "z", function() awful.spawn(reader) end,
+              { description = "open pdf reader", group = "launcher" }),
     awful.key({ modkey            }, "Return", function() awful.spawn(terminal) end,
               { description = "open a terminal", group = "launcher" }),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
@@ -299,7 +295,7 @@ local globalkeys = gears.table.join(
               { description = "decrease the number of columns", group = "layout" }),
     awful.key({ modkey            }, "space", function() awful.layout.inc(1) end,
               { description = "select next", group = "layout" }),
-    awful.key({ modkey, "Shift"   }, "space", function() awful.layout.inc(-1) end,
+    awful.key({ modkey, "Control"   }, "space", function() awful.layout.inc(-1) end,
               { description = "select previous", group = "layout" }),
 
     awful.key({ modkey, "Shift"   }, "n", function()
@@ -323,7 +319,7 @@ local globalkeys = gears.table.join(
 local clientkeys = gears.table.join(
     awful.key({ modkey            }, "c", function(c) c:kill() end,
               { description = "close window", group = "client" }),
-    awful.key({ modkey, "Control" }, "space", awful.client.floating.toggle,
+    awful.key({ modkey, "Shift" }, "space", awful.client.floating.toggle,
               { description = "toggle floating", group = "client" }),
     awful.key({ modkey, "Shift"   }, "Return", function(c) c:swap(awful.client.getmaster()) end,
               { description = "move to master", group = "client" }),
@@ -337,27 +333,23 @@ local clientkeys = gears.table.join(
     awful.key({ modkey            }, "f", function(c)
         c.fullscreen = not c.fullscreen
         local cur_tag = client.focus and client.focus.first_tag or nil
-        if not cur_tag then
-            naughty.notify({
-                preset = naughty.config.presets.critical,
-                title = "Not Found",
-                text = "Current tag returned nil",
-            })
-        else
+        if cur_tag then
             for _, tag_client in ipairs(cur_tag:clients()) do
                 if c.window ~= tag_client.window then
-                    tag_client.hidden = c.fullscreen
+                    tag_client.minimized = c.fullscreen
                 end
             end
         end
         c:raise()
     end,
-              { description = "toggle fullscreen", group = "client" })
+              { description = "toggle fullscreen", group = "client" }),
+    awful.key({ modkey            }, "m", function(c)
+        c.maximized = not c.maximized
+    end,
+              { description = "maximize/unmaximize", group = "client" })
 )
 
 -- Bind all key numbers to tags.
--- Be careful: we use keycodes to make it work on any keyboard layout.
--- This should map on the top row of your keyboard, usually 1 to 9.
 for i = 1, 9 do
     globalkeys = gears.table.join(
         globalkeys,
